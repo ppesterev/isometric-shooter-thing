@@ -121,21 +121,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &2402575653224142335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5942012373775636113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1001 &2402575654153359256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,8 +172,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 802586e2bfea4d64c9598e18ce6d3686,
-        type: 2}
+      objectReference: {fileID: 9100000, guid: d24b24798dac3db41a9c2dd9b831ae58, type: 2}
     - target: {fileID: -5457520697305538277, guid: 4216d9cb6be34a44599609b98128690c,
         type: 3}
       propertyPath: m_CastShadows
@@ -456,12 +440,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4216d9cb6be34a44599609b98128690c, type: 3}
---- !u!1 &5942012373775636113 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 4216d9cb6be34a44599609b98128690c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2402575654153359256}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7218457790187676802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 4216d9cb6be34a44599609b98128690c,
