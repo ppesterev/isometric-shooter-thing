@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class PlayerPresence : NetworkBehaviour
 {
     [SerializeField]
-    GameObject avatarPrefab;
+    GameObject avatarPrefab = null;
 
     // Start is called before the first frame update
     void Start()
