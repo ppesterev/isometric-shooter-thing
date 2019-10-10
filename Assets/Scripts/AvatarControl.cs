@@ -11,6 +11,9 @@ public class AvatarControl : NetworkBehaviour
     int health = 100;
     public int Health => health;
 
+    [SyncVar]
+    bool hidden = false;
+
     CharacterController controller = null;
     Animator animator = null;
     QuickAttack quickAttack = null;
@@ -66,8 +69,7 @@ public class AvatarControl : NetworkBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!isServer)
-            return;
-        health -= damage;
+        if (isServer)
+            health -= damage;
     }
 }
