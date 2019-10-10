@@ -7,8 +7,13 @@ public class AvatarControl : NetworkBehaviour
 {
     [SerializeField]
     float speed = 5f;
+    [SerializeField, SyncVar]
+    int health = 100;
+    public int Health => health;
+
     CharacterController controller = null;
     Animator animator = null;
+    QuickAttack quickAttack = null;
     Vector3 motion;
 
     // Start is called before the first frame update
@@ -16,6 +21,7 @@ public class AvatarControl : NetworkBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
+        quickAttack = GetComponent<QuickAttack>();
     }
 
     private void Update()
@@ -47,13 +53,21 @@ public class AvatarControl : NetworkBehaviour
     [Command]
     void CmdQuickAttack()
     {
-        RpcQuickAttack();
+        quickAttack.Attack(transform.forward);
+        RpcSyncAnimation("QuickAttack");
     }
 
     [ClientRpc]
-    void RpcQuickAttack()
+    void RpcSyncAnimation(string triggerName)
     {
         if(!hasAuthority)
-        animator.SetTrigger("QuickAttack");
+        animator.SetTrigger(triggerName);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (!isServer)
+            return;
+        health -= damage;
     }
 }
