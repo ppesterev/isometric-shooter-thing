@@ -5,9 +5,13 @@ using UnityEngine.Networking;
 
 public class QuickAttack : NetworkBehaviour
 {
+    
+
     [SerializeField]
     float spreadAngle = 45;
+    [SerializeField]
     float range = 5;
+    [SerializeField]
     int damage = 20;
 
     // Start is called before the first frame update
@@ -22,7 +26,7 @@ public class QuickAttack : NetworkBehaviour
         
     }
 
-    public void Attack(Vector3 attackDirection)
+    public void Attack(Vector3 attackDirection, GameObject attacker)
     {
         if (!isServer)
             return;
@@ -36,7 +40,7 @@ public class QuickAttack : NetworkBehaviour
 
             Vector3 direction = other.transform.position - transform.position;
             if (Vector3.Angle(direction, attackDirection) < spreadAngle)
-                other.GetComponent<AvatarControl>().TakeDamage(damage);
+                other.GetComponent<AvatarControl>().TakeDamage(damage, attacker);
         }
     }
 }

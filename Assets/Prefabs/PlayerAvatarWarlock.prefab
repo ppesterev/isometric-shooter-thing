@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   health: 100
+  maxHealth: 100
 --- !u!114 &7012776229434624179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spreadAngle: 45
+  range: 5
+  damage: 20
 --- !u!1 &2957161939836956495
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +192,7 @@ GameObject:
   - component: {fileID: 2001223258849984338}
   - component: {fileID: 812229804037958524}
   - component: {fileID: 1462191773944114805}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
