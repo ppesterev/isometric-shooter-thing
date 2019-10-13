@@ -181,6 +181,8 @@ MonoBehaviour:
   spreadAngle: 45
   range: 5
   damage: 20
+  effectPrefab: {fileID: 9087765041553072354, guid: 2e734d294147baf45825f61310409cb0,
+    type: 3}
 --- !u!1 &2957161939836956495
 GameObject:
   m_ObjectHideFlags: 0

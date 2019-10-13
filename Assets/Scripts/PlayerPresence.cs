@@ -11,7 +11,9 @@ public class PlayerPresence : NetworkBehaviour
 
     //AvatarControl avatar = null;
 
+    [SyncVar]
     string playerName = null;
+    public string PlayerName => playerName;
 
     [SyncVar]
     int score = 0;
@@ -34,11 +36,7 @@ public class PlayerPresence : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // each player presence on the server spawns their selected avatar
-        if (isServer)
-        {
-            SpawnAvatar();
-        }
+        CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"));
     }
 
     private void FixedUpdate()
@@ -52,8 +50,10 @@ public class PlayerPresence : NetworkBehaviour
         
     }
 
-    void SpawnAvatar()
+    [Command]
+    void CmdSetupPlayer(string playerName)
     {
+        this.playerName = playerName;
         GameObject avatar = Instantiate(avatarPrefab);
         avatar.GetComponent<AvatarControl>().ControllingPlayer = this.gameObject;
         NetworkServer.SpawnWithClientAuthority(avatar, this.gameObject);
