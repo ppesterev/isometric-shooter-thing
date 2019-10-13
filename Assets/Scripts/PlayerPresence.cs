@@ -36,7 +36,8 @@ public class PlayerPresence : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"));
+        if(hasAuthority)
+            CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"));
     }
 
     private void FixedUpdate()
@@ -54,23 +55,12 @@ public class PlayerPresence : NetworkBehaviour
     void CmdSetupPlayer(string playerName)
     {
         this.playerName = playerName;
+        gameObject.name = playerName;
+
         GameObject avatar = Instantiate(avatarPrefab);
+        avatar.name = playerName + "Avatar";
         avatar.GetComponent<AvatarControl>().ControllingPlayer = this.gameObject;
+
         NetworkServer.SpawnWithClientAuthority(avatar, this.gameObject);
     }
-
-    //public void DieAndRespawn(GameObject avatar)
-    //{
-    //    if (!hasAuthority)
-    //        return;
-    //    NetworkServer.UnSpawn(avatar);
-    //    StartCoroutine(WaitAndRespawn());
-    //}
-
-    //IEnumerator WaitAndRespawn()
-    //{
-    //    //yield return new WaitForSeconds(3.0f);
-    //    //NetworkServer.SpawnWithClientAuthority()
-    //    yield return null;
-    //}
 }
