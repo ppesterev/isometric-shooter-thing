@@ -47,6 +47,7 @@ public class AvatarControl : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         quickAttack = GetComponent<QuickAttack>();
+
     }
 
     private void Update()
@@ -86,13 +87,13 @@ public class AvatarControl : NetworkBehaviour
     void RpcSyncAnimation(string triggerName)
     {
         if(!hasAuthority)
-        animator.SetTrigger(triggerName);
+            animator.SetTrigger(triggerName);
     }
 
     [ClientRpc]
     void RpcDie(GameObject attacker)
     {
-        // death animation, etc.
+        animator.SetTrigger("Die");
         GameManager.instance.OnKill(attacker, controllingPlayer);
             
     }
@@ -119,7 +120,6 @@ public class AvatarControl : NetworkBehaviour
         yield return new WaitForSeconds(3.0f);
         health = maxHealth;
         RpcResetCharacter(NetworkManager.singleton.GetStartPosition().position);
-        //RcSyncAnimation("Respawn");
     }
 
     [ClientRpc]
@@ -127,5 +127,18 @@ public class AvatarControl : NetworkBehaviour
     {
         transform.position = NetworkManager.singleton.GetStartPosition().position;
         Physics.SyncTransforms();
+        animator.SetTrigger("Reset");
+    }
+
+    public override void OnStartAuthority()
+    {
+        if (isClient)
+        {
+            PlayerTracker trackingCamera = Camera.main.GetComponent<PlayerTracker>();
+            if (trackingCamera != null)
+            {
+                trackingCamera.StartFollowing(this.gameObject);
+            }
+        }
     }
 }

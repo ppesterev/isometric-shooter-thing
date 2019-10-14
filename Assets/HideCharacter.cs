@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Detector : MonoBehaviour
+public class HideCharacter : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -10,20 +10,14 @@ public class Detector : MonoBehaviour
         
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if(other.tag == "Player")
         {
             AvatarControl avatar = other.GetComponent<AvatarControl>();
-            if (avatar != null && !avatar.hasAuthority)
+            if(avatar != null && !avatar.hasAuthority)
             {
-                other.GetComponent<Hiding>().EnterDetectionRange();
+                other.GetComponent<Hiding>().EnterCover();
             }
         }
     }
@@ -35,7 +29,7 @@ public class Detector : MonoBehaviour
             AvatarControl avatar = other.GetComponent<AvatarControl>();
             if (avatar != null && !avatar.hasAuthority)
             {
-                other.GetComponent<Hiding>().ExitDetectionRange();
+                other.GetComponent<Hiding>().ExitCover();
             }
         }
     }
