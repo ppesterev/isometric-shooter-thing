@@ -6,9 +6,6 @@ public class Hiding : MonoBehaviour
 {
     CharacterController controller = null;
 
-    //[SerializeField]
-    //GameObject characterVisual = null;
-
     Renderer[] renderers = null; // cache
 
     bool hidden = false;

@@ -14,6 +14,10 @@ public class QuickAttack : NetworkBehaviour
     [SerializeField]
     int damage = 20;
 
+    public float SpreadAngle => spreadAngle;
+    public float Range => range;
+    public int Damage => damage;
+
     [SerializeField]
     GameObject effectPrefab;
 
@@ -44,7 +48,7 @@ public class QuickAttack : NetworkBehaviour
                 continue;
 
             Vector3 direction = other.transform.position - transform.position;
-            if (Vector3.Angle(direction, attackDirection) < spreadAngle)
+            if (Vector3.Angle(direction, attackDirection) < spreadAngle / 2)
                 other.GetComponent<AvatarControl>().TakeDamage(damage, attacker);
         }
     }

@@ -37,7 +37,17 @@ public class AvatarControl : NetworkBehaviour
     CharacterController controller = null;
     Animator animator = null;
     QuickAttack quickAttack = null;
+    AimingIndicator indicator = null;
+
     Vector3 motion;
+    bool aiming = false;
+
+
+    Joystick joystickMovement = null;
+    Joystick joystickAttack = null;
+    PushInJoystick attackButton = null;
+
+    Camera mainCamera = null;
 
     public System.Action<GameObject, GameObject> KillEvent;
 
@@ -47,7 +57,14 @@ public class AvatarControl : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         quickAttack = GetComponent<QuickAttack>();
+        indicator = GetComponent<AimingIndicator>();
 
+        joystickMovement = GameObject.Find("JoystickMovement").GetComponent<Joystick>();
+        joystickAttack = GameObject.Find("JoystickAttack").GetComponent<Joystick>();
+        attackButton = GameObject.Find("JoystickAttack").GetComponent<PushInJoystick>();
+
+        attackButton.Pushed += OnAtkBtnPushed;
+        attackButton.ThresholdCrossed += OnAtkBtnCrossed;
     }
 
     private void Update()
@@ -55,11 +72,42 @@ public class AvatarControl : NetworkBehaviour
         if (!hasAuthority || health <= 0)
             return;
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            animator.SetTrigger("QuickAttack");
-            CmdQuickAttack();
-        }
+        //if (Input.GetButtonDown("Fire1"))
+        //{
+        //    animator.SetTrigger("QuickAttack");
+        //    CmdQuickAttack();
+        //}
+
+        if (aiming)
+            indicator.UpdateDirection(UIToWorldDirection(joystickAttack.Direction));
+    }
+
+    void OnAtkBtnPushed(bool pastThreshold, Vector2 direction)
+    {
+        indicator.SetVisibility(false);
+        aiming = false;
+
+        if(pastThreshold) // aiming and not attacking along movement
+            transform.forward = UIToWorldDirection(direction);
+
+        animator.SetTrigger("QuickAttack");
+        CmdQuickAttack(transform.forward);
+    }
+
+    void OnAtkBtnCrossed()
+    {
+        indicator.SetVisibility(true);
+        aiming = true;
+    }
+
+    Vector3 UIToWorldDirection(Vector2 direction)
+    {
+        Vector3 forward = mainCamera.transform.forward;
+        forward.y = 0;
+        forward.Normalize();
+        Vector3 right = mainCamera.transform.right;
+
+        return forward * direction.normalized.y + right * direction.normalized.x;
     }
 
     void FixedUpdate()
@@ -67,7 +115,8 @@ public class AvatarControl : NetworkBehaviour
         if (!hasAuthority || health <= 0)
             return;
 
-        motion.Set(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //motion.Set(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        motion = UIToWorldDirection(joystickMovement.Direction);
 
         if (motion.magnitude > 0.1f)
             transform.forward = Vector3.RotateTowards(transform.forward, motion, 0.3f, 1);
@@ -77,10 +126,10 @@ public class AvatarControl : NetworkBehaviour
     }
 
     [Command]
-    void CmdQuickAttack()
+    void CmdQuickAttack(Vector3 direction)
     {
         RpcSyncAnimation("QuickAttack");
-        quickAttack.Attack(transform.forward, controllingPlayer);
+        quickAttack.Attack(direction, controllingPlayer);
     }
 
     [ClientRpc]
@@ -134,7 +183,8 @@ public class AvatarControl : NetworkBehaviour
     {
         if (isClient)
         {
-            PlayerTracker trackingCamera = Camera.main.GetComponent<PlayerTracker>();
+            mainCamera = Camera.main;
+            PlayerTracker trackingCamera = mainCamera.GetComponent<PlayerTracker>();
             if (trackingCamera != null)
             {
                 trackingCamera.StartFollowing(this.gameObject);
@@ -144,6 +194,9 @@ public class AvatarControl : NetworkBehaviour
             Detector det = GetComponentInChildren<Detector>();
             if(det != null)
                 det.enabled = true;
+
+           // GetComponentInChildren<Canvas>().enabled = true;
+            GetComponent<AimingIndicator>().enabled = true;
         }
     }
 }
