@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba759e0e7809a0545afde1437ef220cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarPrefab: {fileID: 2402575652730280570, guid: 9ee8c19d025c174439d01849255d97c5,
+  avatarPrefab: {fileID: 2402575652730280570, guid: d39187696edc07445b2f8b40acf379fb,
     type: 3}
 --- !u!114 &-226690092722386092
 MonoBehaviour:

@@ -57,14 +57,6 @@ public class AvatarControl : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         quickAttack = GetComponent<QuickAttack>();
-        indicator = GetComponent<AimingIndicator>();
-
-        joystickMovement = GameObject.Find("JoystickMovement").GetComponent<Joystick>();
-        joystickAttack = GameObject.Find("JoystickAttack").GetComponent<Joystick>();
-        attackButton = GameObject.Find("JoystickAttack").GetComponent<PushInJoystick>();
-
-        attackButton.Pushed += OnAtkBtnPushed;
-        attackButton.ThresholdCrossed += OnAtkBtnCrossed;
     }
 
     private void Update()
@@ -195,8 +187,15 @@ public class AvatarControl : NetworkBehaviour
             if(det != null)
                 det.enabled = true;
 
-           // GetComponentInChildren<Canvas>().enabled = true;
-            GetComponent<AimingIndicator>().enabled = true;
+            indicator = GetComponent<AimingIndicator>();
+            indicator.enabled = true;
+
+            joystickMovement = GameObject.Find("JoystickMovement").GetComponent<Joystick>();
+            joystickAttack = GameObject.Find("JoystickAttack").GetComponent<Joystick>();
+            attackButton = GameObject.Find("JoystickAttack").GetComponent<PushInJoystick>();
+
+            attackButton.Pushed += OnAtkBtnPushed;
+            attackButton.ThresholdCrossed += OnAtkBtnCrossed;
         }
     }
 }

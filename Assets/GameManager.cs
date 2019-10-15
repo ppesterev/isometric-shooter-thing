@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    List<GameObject> characterPrefabs = null;
+    public List<GameObject> CharacterPrefabs => characterPrefabs;
+
+    Dictionary<string, GameObject> characterPrefabDict = new Dictionary<string, GameObject>();
     public static GameManager instance;
 
     public System.Action<GameObject, GameObject> OnKill;

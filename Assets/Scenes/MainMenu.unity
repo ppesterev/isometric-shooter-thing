@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 370675299}
   - component: {fileID: 370675298}
   m_Layer: 5
-  m_Name: CSBorder
+  m_Name: CharacterSelectBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2557,6 +2557,7 @@ MonoBehaviour:
   m_OnlineScene: Gameplay
   m_SpawnPrefabs:
   - {fileID: 2402575652730280570, guid: 9ee8c19d025c174439d01849255d97c5, type: 3}
+  - {fileID: 2402575652730280570, guid: d39187696edc07445b2f8b40acf379fb, type: 3}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -2638,6 +2639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136be6a834d9d53488122e3d7a7b4759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterPrefabs:
+  - {fileID: 2402575652730280570, guid: 9ee8c19d025c174439d01849255d97c5, type: 3}
+  - {fileID: 2402575652730280570, guid: d39187696edc07445b2f8b40acf379fb, type: 3}
 --- !u!1 &1380065279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,7 +3022,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: eade4b31a0fcb7c468f34ebf85b2f58d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9df0aa606bdfd9448926e006e25a681e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
