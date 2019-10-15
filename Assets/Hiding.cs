@@ -6,12 +6,13 @@ public class Hiding : MonoBehaviour
 {
     CharacterController controller = null;
 
-    [SerializeField]
-    GameObject characterVisual = null;
+    //[SerializeField]
+    //GameObject characterVisual = null;
 
     Renderer[] renderers = null; // cache
 
     bool hidden = false;
+    bool detected = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,10 +25,8 @@ public class Hiding : MonoBehaviour
         if(!hidden)
         {
             hidden = true;
-            if(renderers == null)
-                renderers = GetComponentsInChildren<Renderer>();
-            foreach (Renderer r in renderers)
-                r.enabled = false;
+            if(!detected)
+                SetVisibility(false);
         }
         
     }
@@ -35,7 +34,7 @@ public class Hiding : MonoBehaviour
     public void ExitCover()
     {
         Collider[] cover = Physics.OverlapSphere(transform.position,
-                                                 controller.radius,
+                                                 controller.radius / 4, // seems to be detecting the exited cover in some cases?
                                                  1 << 11);
 //        Debug.Log("Covers:" + cover.Length);
         if(cover == null || cover.Length == 0) // actually left cover
@@ -43,21 +42,31 @@ public class Hiding : MonoBehaviour
             if (hidden)
             {
                 hidden = false;
-                if(renderers == null)
-                renderers = GetComponentsInChildren<Renderer>();
-                foreach (Renderer r in renderers)
-                    r.enabled = true;
+                SetVisibility(true);
             }
         }
     }
 
     public void EnterDetectionRange()
     {
-
+        detected = true;
+        if(hidden)
+            SetVisibility(true);
     }
 
     public void ExitDetectionRange()
     {
+        detected = false;
+        if (hidden)
+            SetVisibility(false);
+    }
 
+    private void SetVisibility(bool visible)
+    {
+        if (renderers == null)
+            renderers = GetComponentsInChildren<Renderer>();
+        Debug.Log(renderers.Length);
+        foreach (Renderer r in renderers)
+            r.enabled = visible;
     }
 }

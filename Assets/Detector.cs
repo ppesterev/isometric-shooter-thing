@@ -18,11 +18,13 @@ public class Detector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Detector enter");
         if (other.tag == "Player")
         {
             AvatarControl avatar = other.GetComponent<AvatarControl>();
             if (avatar != null && !avatar.hasAuthority)
             {
+                Debug.Log("EnterDetectionRange called");
                 other.GetComponent<Hiding>().EnterDetectionRange();
             }
         }
@@ -30,11 +32,13 @@ public class Detector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Detector exit");
         if (other.tag == "Player")
         {
             AvatarControl avatar = other.GetComponent<AvatarControl>();
             if (avatar != null && !avatar.hasAuthority)
             {
+                Debug.Log("ExitDetectionRange called");
                 other.GetComponent<Hiding>().ExitDetectionRange();
             }
         }

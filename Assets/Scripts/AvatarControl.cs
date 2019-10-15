@@ -139,6 +139,11 @@ public class AvatarControl : NetworkBehaviour
             {
                 trackingCamera.StartFollowing(this.gameObject);
             }
+
+            // on the authoritative client, detection of hidden players is enabled
+            Detector det = GetComponentInChildren<Detector>();
+            if(det != null)
+                det.enabled = true;
         }
     }
 }
