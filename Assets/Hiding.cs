@@ -8,8 +8,8 @@ public class Hiding : MonoBehaviour
 
     Renderer[] renderers = null; // cache
 
-    bool hidden = false;
-    bool detected = false;
+    public bool hidden { get; private set; }
+    public bool detected { get; private set; }
 
     // Start is called before the first frame update
     void Start()

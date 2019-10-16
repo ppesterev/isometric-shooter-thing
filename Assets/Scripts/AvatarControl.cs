@@ -119,7 +119,7 @@ public class AvatarControl : NetworkBehaviour
     void CmdQuickAttack(Vector3 direction)
     {
         RpcSyncAnimation("QuickAttack");
-        quickAttack.Attack(direction, controllingPlayer); // TODO effect spawning with outdated direction
+        quickAttack.Attack(direction, controllingPlayer);
     }
 
     [ClientRpc]
@@ -164,7 +164,7 @@ public class AvatarControl : NetworkBehaviour
     [ClientRpc]
     void RpcResetCharacter(Vector3 position)
     {
-        transform.position = NetworkManager.singleton.GetStartPosition().position;
+        transform.position = position;
         Physics.SyncTransforms();
         animator.SetTrigger("Reset");
     }
@@ -194,6 +194,11 @@ public class AvatarControl : NetworkBehaviour
 
             attackButton.Pushed += OnAtkBtnPushed;
             attackButton.ThresholdCrossed += OnAtkBtnCrossed;
+
+            // Canvas starts deactivated in prefabs, activates only on authoritative client
+            Canvas canvas = GetComponentInChildren<Canvas>();
+            if (canvas)
+                canvas.enabled = true;
         }
     }
 }

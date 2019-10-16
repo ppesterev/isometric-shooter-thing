@@ -5,9 +5,8 @@ using UnityEngine.Networking;
 
 public class PlayerPresence : NetworkBehaviour
 {
-    //TODO This will be set by player before they connect
-    [SerializeField]
-    GameObject avatarPrefab = null;
+    //[SerializeField]
+    //GameObject avatarPrefab = null;
 
     //AvatarControl avatar = null;
 
@@ -58,7 +57,11 @@ public class PlayerPresence : NetworkBehaviour
         this.playerName = playerName;
         gameObject.name = playerName;
 
-        GameObject avatar = Instantiate(GameManager.instance.CharacterPrefabs[characterId]);
+        Transform start = NetworkManager.singleton.GetStartPosition();
+
+        GameObject avatar = Instantiate(GameManager.instance.CharacterPrefabs[characterId],
+                                        start.position,
+                                        start.rotation); ;
         avatar.name = playerName + "Avatar";
         avatar.GetComponent<AvatarControl>().ControllingPlayer = this.gameObject;
 

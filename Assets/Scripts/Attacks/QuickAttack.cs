@@ -5,14 +5,15 @@ using UnityEngine.Networking;
 
 public class QuickAttack : NetworkBehaviour
 {
-    
-
     [SerializeField]
     float spreadAngle = 45;
     [SerializeField]
     float range = 5;
     [SerializeField]
     int damage = 20;
+    [SerializeField]
+    float cooldown = 0.5f;
+    float cooldownLeft = 0f;
 
     public float SpreadAngle => spreadAngle;
     public float Range => range;
@@ -30,14 +31,15 @@ public class QuickAttack : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (cooldownLeft > 0)
+            cooldownLeft -= Time.deltaTime;
     }
 
     public void Attack(Vector3 attackDirection, GameObject attacker)
     {
-        if (!isServer)
+        if (!isServer || cooldownLeft > 0)
             return;
-        //TODO solution for spawning at appropriate position
+        cooldownLeft = cooldown;
         Quaternion effectRotation = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, attackDirection, Vector3.up), 0);
         RpcDisplayEffect(transform.position + transform.up + transform.forward * 0.5f, effectRotation);
 
@@ -49,7 +51,11 @@ public class QuickAttack : NetworkBehaviour
                 continue;
 
             Vector3 direction = other.transform.position - transform.position;
-            if (Vector3.Angle(direction, attackDirection) < spreadAngle / 2)
+            bool blocked = Physics.Raycast(origin: transform.position,
+                                           direction: direction,
+                                           maxDistance: direction.magnitude,
+                                           layerMask: 1 << 9);
+            if (!blocked && Vector3.Angle(direction, attackDirection) < spreadAngle / 2)
                 other.GetComponent<AvatarControl>().TakeDamage(damage, attacker);
         }
     }

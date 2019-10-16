@@ -184,6 +184,7 @@ MonoBehaviour:
   spreadAngle: 70
   range: 5
   damage: 20
+  cooldown: 0.8
   effectPrefab: {fileID: 9087765041553072354, guid: 2e734d294147baf45825f61310409cb0,
     type: 3}
 --- !u!114 &6667599209422250841
@@ -391,7 +392,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4452626153819481922}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
