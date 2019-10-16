@@ -26,7 +26,7 @@ public class HealthDisplay : MonoBehaviour
 
     void PositionOverhead()
     {
-        if (character == null)
+        if (!character || !mainCamera)
             return;
         transform.position = mainCamera.WorldToScreenPoint(character.transform.position + Vector3.up * 2.5f);
     }

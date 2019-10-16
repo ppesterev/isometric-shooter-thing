@@ -14,6 +14,9 @@ public class SettingsMenu : MonoBehaviour
     GameObject mainMenu = null;
 
     [SerializeField]
+    Text[] descriptions = null;
+
+    [SerializeField]
     string defaultName = "Player";
 
     // Start is called before the first frame update
@@ -23,6 +26,7 @@ public class SettingsMenu : MonoBehaviour
         SetName(inputName.text);
         inputName.onEndEdit.AddListener(SetName);
 
+        SetCharacter(0);
         gameObject.SetActive(false);
     }
 
@@ -39,6 +43,15 @@ public class SettingsMenu : MonoBehaviour
             inputName.text = defaultName;
         }
         PlayerPrefs.SetString("PlayerName", inputName.text);
+    }
+
+    // 
+    public void SetCharacter(int id)
+    {
+        PlayerPrefs.SetInt("CharacterId", id);
+        foreach (Text desc in descriptions)
+            desc.enabled = false;
+        descriptions[id].enabled = true;
     }
 
     public void CloseSettings()

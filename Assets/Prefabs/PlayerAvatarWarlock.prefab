@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862a85f19514f454b95665090d57059d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spreadAngle: 60
+  spreadAngle: 70
   range: 5
   damage: 20
   effectPrefab: {fileID: 9087765041553072354, guid: 2e734d294147baf45825f61310409cb0,

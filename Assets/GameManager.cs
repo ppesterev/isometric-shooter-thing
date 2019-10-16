@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     List<GameObject> characterPrefabs = null;
     public List<GameObject> CharacterPrefabs => characterPrefabs;
+    [SerializeField]
 
     Dictionary<string, GameObject> characterPrefabDict = new Dictionary<string, GameObject>();
     public static GameManager instance;

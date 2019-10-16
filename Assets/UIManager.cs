@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     {
         if (healthDisplayPrefab == null || healthDisplayPrefab.GetComponent<HealthDisplay>() == null)
             Debug.LogError("UI manager: Invalid health display prefab");
+
+        GameManager.instance.OnKill += PushKillMessage;
     }
 
     // Update is called once per frame
@@ -33,5 +35,15 @@ public class UIManager : MonoBehaviour
         // create new display, parent to canvas
         GameObject newDisplay = Instantiate(healthDisplayPrefab, transform);
         newDisplay.GetComponent<HealthDisplay>().Setup(character);
+    }
+
+    private void PushKillMessage(GameObject attacker, GameObject victim)
+    {
+        PlayerPresence attackingPlayer = attacker.GetComponent<PlayerPresence>();
+        PlayerPresence victimPlayer = victim.GetComponent<PlayerPresence>();
+        if(attackingPlayer && victimPlayer) // in the future, could be adapted to handle environment deaths etc/
+        {
+            Debug.Log(attackingPlayer.PlayerName + " killed " + victimPlayer.PlayerName);
+        }
     }
 }

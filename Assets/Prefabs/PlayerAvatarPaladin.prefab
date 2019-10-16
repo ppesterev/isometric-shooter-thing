@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spreadAngle: 150
-  range: 4
-  damage: 20
+  range: 3
+  damage: 25
   effectPrefab: {fileID: 100000, guid: 5db5de119dc1ada4da6eecc5f9dfb773, type: 3}
 --- !u!114 &6667599209422250841
 MonoBehaviour:
