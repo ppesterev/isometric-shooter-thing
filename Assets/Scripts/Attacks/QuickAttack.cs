@@ -38,7 +38,8 @@ public class QuickAttack : NetworkBehaviour
         if (!isServer)
             return;
         //TODO solution for spawning at appropriate position
-        RpcDisplayEffect(transform.position + transform.up + transform.forward * 0.5f, transform.rotation);
+        Quaternion effectRotation = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, attackDirection, Vector3.up), 0);
+        RpcDisplayEffect(transform.position + transform.up + transform.forward * 0.5f, effectRotation);
 
         Collider[] avatars = Physics.OverlapSphere(transform.position, range, 1 << 8); // Layer mask for avatars
         foreach(Collider other in avatars)

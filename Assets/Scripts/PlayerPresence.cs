@@ -36,10 +36,9 @@ public class PlayerPresence : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int characterId = (isServer ? 1 : 0);
+        int characterId = (isServer ? 1 : 1); // debug
         if (hasAuthority)
             CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"), characterId);
-                           //PlayerPrefs.GetString("CharacterName"));
     }
 
     private void FixedUpdate()

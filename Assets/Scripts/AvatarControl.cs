@@ -15,10 +15,6 @@ public class AvatarControl : NetworkBehaviour
     private int maxHealth = 100;
     public int MaxHealth => maxHealth;
 
-    //TODO implement hiding
-    //[SyncVar]
-    //bool hidden = false;
-
     [SyncVar]
     GameObject controllingPlayer;
     public GameObject ControllingPlayer
@@ -57,6 +53,8 @@ public class AvatarControl : NetworkBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         quickAttack = GetComponent<QuickAttack>();
+
+        UIManager.instance.CreateHealthDisplay(this);
     }
 
     private void Update()
@@ -121,7 +119,7 @@ public class AvatarControl : NetworkBehaviour
     void CmdQuickAttack(Vector3 direction)
     {
         RpcSyncAnimation("QuickAttack");
-        quickAttack.Attack(direction, controllingPlayer);
+        quickAttack.Attack(direction, controllingPlayer); // TODO effect spawning with outdated direction
     }
 
     [ClientRpc]
