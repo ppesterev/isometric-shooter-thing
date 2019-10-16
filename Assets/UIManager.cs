@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Canvas))]
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
     GameObject healthDisplayPrefab = null;
+    [SerializeField]
+    Text score = null;
+    PlayerPresence player = null;
+
     public static UIManager instance = null;
 
     private void Awake()
@@ -21,13 +26,7 @@ public class UIManager : MonoBehaviour
         if (healthDisplayPrefab == null || healthDisplayPrefab.GetComponent<HealthDisplay>() == null)
             Debug.LogError("UI manager: Invalid health display prefab");
 
-        GameManager.instance.OnKill += PushKillMessage;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.instance.OnKill += ProcessKill;
     }
 
     public void CreateHealthDisplay(AvatarControl character)
@@ -37,13 +36,18 @@ public class UIManager : MonoBehaviour
         newDisplay.GetComponent<HealthDisplay>().Setup(character);
     }
 
-    private void PushKillMessage(GameObject attacker, GameObject victim)
+    private void ProcessKill(GameObject attacker, GameObject victim)
     {
         PlayerPresence attackingPlayer = attacker.GetComponent<PlayerPresence>();
         PlayerPresence victimPlayer = victim.GetComponent<PlayerPresence>();
-        if(attackingPlayer && victimPlayer) // in the future, could be adapted to handle environment deaths etc/
+        if (attackingPlayer && victimPlayer) // could be adapted to handle environment deaths etc/
         {
             Debug.Log(attackingPlayer.PlayerName + " killed " + victimPlayer.PlayerName);
         }
+    }
+
+    public void UpdateScore(int score)
+    {
+        this.score.text = "<b>Score: " + score + "</b>";
     }
 }

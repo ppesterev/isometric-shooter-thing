@@ -5,16 +5,11 @@ using UnityEngine.Networking;
 
 public class PlayerPresence : NetworkBehaviour
 {
-    //[SerializeField]
-    //GameObject avatarPrefab = null;
-
-    //AvatarControl avatar = null;
-
     [SyncVar]
     string playerName = null;
     public string PlayerName => playerName;
 
-    [SyncVar]
+    [SyncVar (hook="OnScoreChanged")]
     int score = 0;
     public int Score
     {
@@ -27,28 +22,14 @@ public class PlayerPresence : NetworkBehaviour
             if (isServer)
             {
                 score = value;
-                //TODO update display
             }
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void OnScoreChanged(int score)
     {
-        int characterId = (isServer ? 2 : 2); // debug
-        if (hasAuthority)
-            CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"), PlayerPrefs.GetInt("CharacterId"));
-    }
-
-    private void FixedUpdate()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(hasAuthority)
+            UIManager.instance.UpdateScore(score);
     }
 
     [Command]
@@ -66,5 +47,13 @@ public class PlayerPresence : NetworkBehaviour
         avatar.GetComponent<AvatarControl>().ControllingPlayer = this.gameObject;
 
         NetworkServer.SpawnWithClientAuthority(avatar, this.gameObject);
+    }
+
+    public override void OnStartAuthority()
+    {
+        if (isClient)
+        {
+            CmdSetupPlayer(PlayerPrefs.GetString("PlayerName"), PlayerPrefs.GetInt("CharacterId"));
+        }
     }
 }
